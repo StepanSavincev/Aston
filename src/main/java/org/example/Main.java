@@ -62,7 +62,7 @@ public class Main {
     }
 
     // 5
-    public static void checkSumInRange() {
+    public static boolean checkSumInRange() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Введите первое число: ");
         int num1 = scan.nextInt();
@@ -70,11 +70,7 @@ public class Main {
         int num2 = scan.nextInt();
         int res;
         res = num1 + num2;
-        if (res >= 10 && res <= 20) {
-            System.out.println("true");
-        } else {
-            System.out.println("false");
-        }
+        return res >= 10 && res <= 20;
     }
 
     // 6
@@ -141,12 +137,14 @@ public class Main {
     public static void fillDiagonalArray() {
         int size = 4;
         int[][] array = new int[size][size];
-        for (int i = 0; i < size; i++) {
-            array[i][i] = 1;
-            for (int j = 0; j < size; j++) {
-                System.out.print(array[i][j] + " ");
+        for (int i = 0; i < size * size; i++) {
+            int row = i / size;
+            int col = i % size;
+            array[row][col] = (row == col) ? 1 : 0;
+            System.out.print(array[row][col] + " ");
+            if (col == size - 1) {
+                System.out.println();
             }
-            System.out.println();
         }
     }
 
