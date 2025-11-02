@@ -1,159 +1,56 @@
 package org.example;
 
-import java.util.Scanner;
-import java.util.Arrays;
 public class Main {
+    public static int sumArray(String[][] array) throws MyArraySizeException, MyArrayDataException {
+        // Проверка размера массива
+        if (array.length != 4 || array[0].length != 4) {
+            throw new MyArraySizeException("Размер массива должен быть 4x4.");
+        }
+        int sum = 0;
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                try {
+                    sum += Integer.parseInt(array[i][j]);
+                } catch (NumberFormatException e) {
+                    throw new MyArrayDataException("Неверные данные в ячейке [" + i + "][" + j + "]: " + array[i][j]);
+                }
+            }
+        }
+
+        return sum;
+    }
     public static void main(String[] args) {
-        printThreeWorld();
-        checkSumSign();
-        printColor();
-        compareNumbers();
-        checkSumInRange();
-        checkPositiveOrNegative();
-        System.out.println(isNegative(-2));
-        printStringMultipleTimes("Строка", 5);
-        System.out.println(isLeapYear(2001));
-        invertArray(new int[]{1, 1, 0, 0, 1, 0, 1, 1, 0, 0});
-        fillArrWithSequence();
-        multiplyLessThanSix();
-        fillDiagonalArray();
-        int[] resultArray = createArray(5, 10);
-        System.out.println(Arrays.toString(resultArray));
-    }
-    // 1
-    public static void printThreeWorld() {
-        System.out.println("Orange");
-        System.out.println("Banana");
-        System.out.println("Apple");
-    }
-    // 2
-    public static void checkSumSign() {
-        int a = 3;
-        int b = 5;
-        int sum = a + b;
-        if (sum >= 0) {
-            System.out.println("Сумма положительная");
-        } else {
-            System.out.println("Сумма отрицательная");
+        String[][] validArray = {
+                {"1", "2", "3", "4"},
+                {"5", "6", "7", "8"},
+                {"9", "10", "11", "12"},
+                {"13", "14", "15", "16"}
+        };
+        String[][] invalidSizeArray = {
+                {"1", "2"},
+                {"3", "4"}
+        };
+        String[][] invalidDataArray = {
+                {"1", "2", "3", "4"},
+                {"5", "six", "7", "8"},
+                {"9", "10", "11", "12"},
+                {"13", "14", "15", "16"}
+        };
+        try {
+            int result = sumArray(validArray);
+            System.out.println("Сумма элементов массива: " + result);
+        } catch (MyArraySizeException | MyArrayDataException e) {
+            System.out.println("Ошибка: " + e.getMessage());
         }
-    }
-    // 3
-    public static void printColor() {
-        System.out.println("\nЗадание 3:");
-        int value = 3;
-        if (value <= 0) {
-            System.out.println("Красный");
-        } else if (value <= 100) {
-            System.out.println("Желтый");
-        } else {
-            System.out.println("Зеленый");
+        try {
+            sumArray(invalidSizeArray);
+        } catch (MyArraySizeException | MyArrayDataException e) {
+            System.out.println("Ошибка: " + e.getMessage());
         }
-    }
-
-    // 4
-    public static void compareNumbers() {
-        int a = 3;
-        int b = 5;
-        if (a >= b) {
-            System.out.println("a>=b");
-        } else {
-            System.out.println("a<b");
+        try {
+            sumArray(invalidDataArray);
+        } catch (MyArraySizeException | MyArrayDataException e) {
+            System.out.println("Ошибка: " + e.getMessage());
         }
-    }
-
-    // 5
-    public static boolean checkSumInRange() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Введите первое число: ");
-        int num1 = scan.nextInt();
-        System.out.println("Введите второе число: ");
-        int num2 = scan.nextInt();
-        int res;
-        res = num1 + num2;
-        return res >= 10 && res <= 20;
-    }
-
-    // 6
-    public static void checkPositiveOrNegative() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Введите число: ");
-        int num1 = scan.nextInt();
-        if (num1 >= 0) {
-            System.out.println("Число положительное");
-        } else {
-            System.out.println("Число отрицательное");
-        }
-    }
-
-    // 7
-    public static boolean isNegative(int number) {
-        return number < 0;}
-
-    // 8
-    public static void printStringMultipleTimes(String str, int times){
-        if (times < 0) {
-            System.out.println("Количество повторений не может быть отрицательным.");
-            return;
-        }
-        for (int i = 0; i < times; i++) {
-            System.out.println(str);
-        }
-    }
-
-    // 9
-    public static boolean isLeapYear(int year) {
-        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-    }
-
-    // 10
-    public static void invertArray(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (arr[i] == 0) ? 1 : 0;
-            System.out.print(arr[i] + " ");
-        }
-    }
-
-    // 11
-    public static void fillArrWithSequence(){
-        int [] arr = new int[100];
-        for (int i = 0; i < arr.length; i++){
-            arr[i]= i + 1;
-            System.out.print(arr[i] + " ");
-        }
-    }
-
-    // 12
-    public static void multiplyLessThanSix() {
-        int [] arr = {1, 5, 3, 2, 11, 4, 5, 2, 4, 8, 9, 11};
-        for (int i =0; i < arr.length; i++) {
-            if (arr[ i ] < 6) {
-                arr[i] *= 2;
-            }
-            System.out.print(arr[i] + " ");
-        }
-    }
-
-    // 13
-    public static void fillDiagonalArray() {
-        int size = 4;
-        int[][] array = new int[size][size];
-        for (int i = 0; i < size * size; i++) {
-            int row = i / size;
-            int col = i % size;
-            array[row][col] = (row == col) ? 1 : 0;
-            System.out.print(array[row][col] + " ");
-            if (col == size - 1) {
-                System.out.println();
-            }
-        }
-    }
-
-    // 14
-    public static int[] createArray(int len, int initialValue) {
-        int[] array = new int[len];
-        for (int i = 0; i < len; i++) {
-            array[i] = initialValue;
-        }
-        return array;
     }
 }
